@@ -1,0 +1,30 @@
+        <div id="prefs_main" class="general page" style="display: block;">
+            <ul class="mochi_list">
+                <li class="mochi_list_item">
+                    <select id="sel_prefs_lang" class="mochi_combo widget" title="Select a language" data-i18n-title="select_a_language">
+                        <option value="auto" data-i18n-title="language" title="Language">Language</option>
+                        <option value="en">English</option>
+                        <option value="zh_CN">简体中文</option>
+                        <option value="zh_TW">正體中文</option>
+                    </select>
+                    <label class="label" data-i18n-text="interface_language">Interface language</label>
+                </li>
+            </ul>
+            <ul class="mochi_list">
+                <li class="mochi_list_item">
+                    <input id="range_prefs_font_size" title="Font Size" class="widget" max="28" min="8" value="10" step="0.5" style="width:200px;" type="range">
+                    <label class="value" id="range_prefs_font_size_st">10pt</label>
+                    <label class="label" data-i18n-text="font_size">Font Size</label>
+                </li>
+                <li class="mochi_list_item">
+                    <input id="range_prefs_line_height" title="Line Height" class="widget" max="2" min="1" value="1.4" step="0.1" style="width:200px;" type="range">
+                    <label class="value" id="range_prefs_line_height_st">1.4</label>
+                    <label class="label" data-i18n-text="line_height">Line height</label>
+                </li>
+            </ul>
+            <h3 data-i18n-text="preview">Preview</h3>
+            <div class="preview" class="value" data-i18n-text="font_preview_hint">
+                <p>The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.</p>
+                <p>The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.</p>
+            </div>
+        </div><!-- END of prefs_main -->

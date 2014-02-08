@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html lang="en-US" ng-app="HototComposeDialog" ng-csp>
+<head>
+    <meta charset="UTF-8">
+    <title>Compose</title>
+    <link rel="stylesheet" href="../styles/comm.css" />
+    <link rel="stylesheet" href="../styles/mochi.css" />
+    <link rel="stylesheet" href="../styles/compose.css" />
+    <link rel="stylesheet" href="../styles/component.css" />
+    <script type="text/javascript" src="../scripts/angular.js"></script>
+    <script type="text/javascript" src="../scripts/interface.js"></script>
+    <script type="text/javascript" src="../scripts/lib.alloyimage-1.1.js"></script>
+    <script type="text/javascript" src="../scripts/util.hotkey.js"></script>
+    <script type="text/javascript" src="../scripts/util.directive.js"></script>
+    <script type="text/javascript" src="../scripts/hotot.js"></script>
+    <script type="text/javascript" src="../scripts/iscroll.js"></script>
+    <script type="text/javascript" src="../scripts/dialog.compose.js"></script>
+    <script type="text/javascript" src="../scripts/com.account_selector.js"></script>
+</head>
+<body ng-controller="ComposeCtrl" ng-init="initCompose()" >
+    <div class="container">
+        <div class="footer">
+            <div class="right">
+                <button tabindex="2" class="send_button mochi_button blue" ng-click="post(text)" value="Send">Send</button>
+            </div>
+            <div class="toolbar">
+                <account-selector class="account_selector" slots="accounts" current="currentSlot" on-changed="changeAccountSelection" use-add-button="{{false}}" multi-selection="{{true}}" selection="currentSelection">
+                </account-selector>
+                <a href="#" class="small_button picture_button" ng-class="pictureButtonCls()" title="insert picture or video" ng-click="insertPicture()">
+                    <i class="icon mono-icon-picture"></i>
+                    <span class="caret"></span>
+                </a>
+                <a href="#" class="small_button" title="insert location" style="display:none" ng-click="test()">
+                    <i class="icon mono-icon-location"></i>
+                </a>
+                <div href="#" class="small_button draft_selector" title="Resume Drafts" ng-mouseenter="showDraftList()" ng-mouseleave="hideDraftList()">
+                    <i class="icon mono-icon-archive"></i>
+                    <div class="draft_popup_menu popup_menu" ng-show="draft_list.show">
+                        <a href="#" class="save_draft" ng-click="saveDraft()">Save as draft</a>
+                        <ul class="items draft_list" ng-show="hasDraft()">
+                            <li ng-repeat="draft in draft_list.drafts" class="item draft">
+                                <a href="#" class="del value" ng-click="deleteDraft(draft)"><i class="mono-icon-delete"></i></a>
+                                <a href="#" ng-click="resumeDraft(draft)" class="draft_text label" title="{{draft.text}}">
+                                {{draft.text}}
+                                </a>
+                            </li>
+                        </ul>
+                        <i class="sharp up"></i>
+                    </div>
+                </div>
+                <a href="#" class="small_button mention_button" ng-class="mentionButtonCls()" title="mention someone" ng-click="mention()">
+                    <i class="icon mono-icon-at"></i>
+                    <span class="caret"></span>
+                </a>
+                <a href="#" class="feedback" title="Feedback" ng-click="feedback()">
+                    feedback
+                </a>
+            </div>
+            <div id="candidate_bar" class="candidate_bar" ng-style="candidateBarStyles()">
+                <div class="candidates">
+                    <a href="#" class="candidate" ng-repeat="candidate in candidate_bar.list" title="{{candidate.name}}" ng-click="selectCandidate(candidate)">
+                        {{candidate.name}}
+                    </a>
+                </div>
+            </div>
+            <div id="effects_bar" class="effects_bar" ng-style="effectsBarStyles()">
+                <div class="effects" ng-style="effectListStyles()">
+                    <a href="#" class="effect" ng-repeat="eff in effects" title="{{eff.display_name}}" ng-class="" ng-click="applyEffect(eff)">
+                        <img class="effect_preview" src="../images/effect_{{eff.icon_name}}.png"/>
+                        <span class="label effect_name">{{eff.display_name}}</span>
+                    </a>
+                </div>
+                <a href="#" class="left_arrow" ng-click="scrollEffectsLeft()"><i class="icon-chevron-left"></i></a>
+                <a href="#" class="right_arrow" ng-click="scrollEffectsRight()"><i class="icon-chevron-right"></i></a>
+            </div>
+        </div>
+        <div class="context" ng-show="context_bar.show">
+            <div class="reply_ctx ctx" ng-show="context_bar.show">
+                <div class="feature_pic_small"><img ng-src="{{context_bar.avatar_data}}"></div>
+                <div class="bubble">
+                    <div class="ctx_text bubble_text" title="{{context_bar.text}}">{{context_bar.text}}</div>
+                    <div class="bubble_caret">
+                        <div class="bubble_caret_inner"></div>
+                        <div class="bubble_caret_outer"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="message_ctx ctx"></div>
+        </div>
+        <div class="body"> 
+            <div class="bubble">
+                <div class="text_wrapper bubble_text" on-dragover="onFileDragover" on-dragend="onFileDragend" on-drop="onFileDrop">
+                    <textarea tabindex="1" name="" ng-model="text" on-keydown="handleKeyDown" on-keyup="handleKeyUp" id="" cols="30" rows="10" class="text" value=""></textarea>
+                    <div class="char_counter" ng-class="charNumWarm()">{{props.remainCharNum}}</div>
+                    <div class="attachments" ng-show="props.has_attachment">
+                        <img ng-src="{{props.attachment.base64_data}}" on-loaded="attachmentLoaded" title="{{props.attachment.filename}}"/>
+                    </div>
+                </div>
+                <div class="bubble_caret right">
+                    <div class="bubble_caret_inner"></div>
+                    <div class="bubble_caret_outer"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="spinner force_one_line" ng-show="effects_bar.spinner_show"><i class="icon icon-spinner"></i><span class="label">{{effects_bar.spinner_label}}</span></div>
+    </div>
+</body>
+</html>

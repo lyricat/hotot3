@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html lang="en-US" ng-app="HototNewSlotDialog" ng-csp>
+<head>
+    <meta charset="UTF-8">
+    <title>New Account</title>
+    <link rel="stylesheet" href="../styles/comm.css" />
+    <link rel="stylesheet" href="../styles/mochi.css" />
+    <link rel="stylesheet" href="../styles/font-awesome.css">
+    <link rel="stylesheet" href="../styles/new_slot.css" />
+    <script type="text/javascript" src="../scripts/angular.js"></script>
+    <script type="text/javascript" src="../scripts/interface.js"></script>
+    <script type="text/javascript" src="../scripts/util.directive.js"></script>
+    <script type="text/javascript" src="../scripts/dialog.new_slot.js"></script>
+    <script type="text/javascript" src="../scripts/util.tabs_frame.js"></script>
+</head>
+<body ng-controller="DialogCtrl">
+<div id="container" class="side_tabs" ng-controller="TabsFrameCtrl" ng-init="initTabs(5)">
+    <div class="side services tabs">
+        <a href="#/page/twitter/auth" class="tab_button service twitter auth {{tabSelected[0]}}"
+            ng-click="select(0)">
+            <i class="icon twitter"></i>
+            <label class="label">Twitter</label>
+            <i class="sharp"></i>
+        </a>
+        <a href="#/page/statusnet/building" class="tab_button service oauth statusnet {{tabSelected[1]}}"
+            ng-click="select(1)">
+            <i class="icon statusnet"></i>
+            <label class="label">Status.net</label>
+            <i class="sharp"></i>
+        </a>
+        <a href="#/page/facebook/oauth" style="display: none" class="tab_button service oauth facebook {{tabSelected[2]}}"
+            ng-click="select(2)">
+            <i class="icon facebook"></i>
+            <label class="label">Facebook</label>
+            <i class="sharp"></i>
+        </a>
+        <a href="#/page/gplus/oauth" style="display: none" class="tab_button service auth gplus {{tabSelected[3]}}"
+            ng-click="select(3)">
+            <i class="icon gplus"></i>
+            <label class="label">Google+</label>
+            <i class="sharp"></i>
+        </a>
+        <a href="#/page/weibo/building" class="tab_button service auth weibo {{tabSelected[4]}}"
+            ng-click="select(4)">
+            <i class="icon weibo"></i>
+            <label class="label">Sina Weibo</label>
+            <i class="sharp"></i>
+        </a>
+        <div class="shadow"></div>
+    </div>
+    <div class="body tabs_body" ng-view>
+ 
+    </div>
+    <div class="spinner">
+        
+    </div>
+</div>    
+</body>
+</html>

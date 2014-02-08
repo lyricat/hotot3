@@ -1,0 +1,323 @@
+<!DOCTYPE HTML>
+<html lang="en" ng-app="Hotot" ng-csp>
+<head>
+	<meta charset="UTF-8">
+	<title>Hotot 3</title>
+	<link rel="stylesheet" href="styles/comm.css" />
+	<link rel="stylesheet" href="styles/mochi.css" />
+	<link rel="stylesheet" href="styles/main.css" />
+	<link rel="stylesheet" href="styles/column.css" />
+	<link rel="stylesheet" href="styles/component.css" />
+</head>
+<body ng-controller="HototApp" ng-init="initApp()" on-keydown="handleKeydown" tabindex="0">
+	<div id="top" ng-controller="WindowCtrl" ng-init="initWinCtrl()" class="title_bar" ng-class="getTitleBarCls()" ng-class="getFocusCls()">
+		<div class="top">
+			<button class="compose_box_trigger topbar_button" ng-show="currentSlotAvailable()" ng-click="openComposeDialog($event)" style="margin-right: 8px;">
+				<i class="mono-icon-edit icon" style="margin-bottom: 3px;"></i>
+			</button>
+			<button class="message_trigger topbar_button" ng-show="currentSlotAvailable()" ng-click="openMessageDialog()">
+				<i class="mono-icon-mail icon" style="margin-bottom: 4px;"></i>
+				<i ng-show="hasNewMessage()" class="spot"></i>
+			</button>
+<!-- 			<div class="search_trigger_wrapper topbar_button">
+				<button class="search_trigger " ng-show="currentSlotAvailable()" ng-click="toggleSearchMode()">
+					<i class="mono-icon-search icon"></i>
+				</button><input class="search_entry" on-keyup="handleSearchEntryKeyup" value="" ng-model="search_entry.text" placeholder="type to search" ng-style="getSearchEntryStyles()"/>
+			</div> -->
+	        <account-selector slots="slots" current="currentSlot" selection="currentSlot" use-add-button="true" on-changed="selectSlot" on-add="openNewSlotDialog">
+				<button class="item profile" ng-click="openProfileDialog()">Profile</button>
+				<button class="item columns" ng-click="openColumnsDialog()">Columns</button>
+				<button class="item settings" ng-click="openSettingsDialog($event)">Settings</button>
+	        </account-selector>
+	    </div>
+		<div class="nav_wrapper" ng-controller="NavigatorCtrl" ng-style="getNavStyles()">
+			<ul class="nav" ng-repeat="slot in slotList" ng-show="slot.visibility">
+				<li class="nav_button_li" ng-repeat="col in columnTable[slot.key].columns" >
+					<button class="nav_button force_one_line" href="#" title="{{col.title}}"
+						ng-click="navigate($index, col)"
+						ng-dblclick="toTop(col)"
+						ng-class="columnTable[slot.key].activeStatus[$index]"
+						>
+						<i ng-class="col.icon_name" class="icon"></i>
+						<span class="nav_title ">{{col.title}}</span>
+						<i ng-show="col.notifyStatus" class="spot"></i>
+					</button>
+				</li>
+  			</ul>
+		</div>
+	</div>
+	<div id="container">
+		<div id="main" ng-controller="ColumnAreaCtrl" ng-style="getAreaHeight()">
+			<div class="columns_wrapper">
+				<div class="columns" ng-repeat="slot in slotList" ng-show="slot.visibility" ng-style="getCantainerStyles()">
+					<section class="column" ng-controller="ColumnCtrl" ng-repeat="col in columnTable[slot.key].columns" 
+						data-serv="{{col.serv}}" data-slot-name="{{col.slot_name}}" data-col-name="{{col.name}}" class="column" 
+						ng-style="getColumnWidth($last)" ng-init="initColumn(col)"
+						ng-click="onDelegatedClick($event)">
+						<div id="{{col.serv}}_{{col.slot_name}}_{{col.name}}" class="body" ng-style="getColumnBodyStyles()">
+							<div class="scroller">
+							<ul class="content">
+								<li ng-repeat="item in items" class="cell_item"  data-id="{{item.id}}" data-comments="{{item.has_comments}}" ng-hide="item.hide" ng-click="selectItem(item)" ng-class="getItemStyles(item)">
+									<div class="corner_mark" ng-class="getItemCornerMarkCls(item)"></div>
+									<div class="connection"></div>
+									<div class="feature_pic">
+										<img ng-init="loadFeaturePic(item)" ng-src="{{item.feature_pic_data}}"/>
+									</div>
+									<div class="feature_pic_mask"></div>
+									<a class="media" ng-show="item.has_media" href="#" ng-click="openMediaPreview(item)">
+										<img ng-init="loadMediaThumb(item)" ng-src="{{item.media_thumb_data}}"/>
+									</a>
+									<div class="title_meta"><span class="title">{{item.title}}</span><a href="hotot://people/{{item.author.name}}" class="user_link author">@{{item.author.name}}</a></div>
+									<div class="text item_content" ng-style="getItemTextStyles()" ng-bind-html-unsafe="item.text" ng-hide="item.no_text">
+									</div>
+									<blockquote class="quote_text" ng-show="item.has_quote">
+										<p ng-bind-html-unsafe="item.quote_text"></p>
+									</blockquote>
+									<div class="attachments item_content" ng-show="item.has_attachments">
+										<div class="attachments_label">{{item.attachments_label}}</div>
+										<a href="{{att.url}}" target="_blank" class="attachment_thumb feature_pic_small" ng-repeat="att in item.attachments">
+											<img class="icon" title="{{att.title}}" ng-src="{{att.thumb_data}}" ng-init="loadAttachmentThumb(att)"/>
+										</a>
+									</div>
+									<div class="control">
+										<a href="#" class="time">{{getFormatTime(item)}}</a>
+										<div class="icons">
+											<a href="#" class="icon reply" ng-click="doItemReply(item)"><i class="ctrl-icon-reply"></i></a><a
+											href="#" class="icon star" ng-click="doItemFav(item)"><i class="ctrl-icon-star" ng-class="getItemFavState(item)"></i></a><a
+											href="#" class="icon repost" ng-click="doItemRepost(item)" ng-show="item.repostable"><i class="ctrl-icon-retweet" ng-class="getItemRepostState(item)"></i></a><div 
+											href="#" class="icon more"><i class="ctrl-icon-more"></i>
+												<div class="more_menu popup_menu">
+													<ul class="items">
+														<li class="item">
+												  			<a href="#" ng-click="doItemQuote(item)"><label class="label">Quote</label></a>
+														</li>
+														<li class="item" ng-show="item.deletable" >
+												  			<a href="#" ng-click="doItemDelete(item)"><label class="label">Delete</label></a>
+														</li>
+														<li class="item">
+												  			<a href="{{item.URL}}" target="_blank"><label class="label">Details</label></a>
+														</li>
+											  		</ul>
+											  		<i class="sharp up"></i>
+												</div>
+											</div>
+										</div>
+										<a href="#" class="comment_label" ng-click="loadComments(item)">
+											<i class="icon" ng-class="getCommentsState(item)">
+											<span class="sharp"></span>
+											</i>
+										</a>
+									</div>
+									<div class="meta"></div>
+									<ul class="comments">
+										<li ng-repeat="comment in getComments(item)" class="cell_item comment">
+											<div class="corner_mark"></div>
+											<div class="feature_pic_small">
+												<img ng-init="loadFeaturePic(comment, comment.feature_pic_url)" ng-src="{{comment.feature_pic_data}}"/>
+											</div>
+											<div class="comment_body" ng-bind-html-unsafe="comment.text">
+												<span class="author">@<a href="{{comment.author.url}}" title="{{comment.author.display_name}}" target="_blank">{{comment.author.name}}</a></span>: <span class="text" ng-bind-html-unsafe="comment.text"></span>
+											</div>
+											<div class="control">
+												<div class="icons">
+													<a href="#" class="icon reply" ng-click="doItemReply(comment)"><i class="ctrl-icon-reply"></i></a><a
+													href="#" class="icon star" ng-click="doItemFav(comment)"><i class="ctrl-icon-star" ng-class="getItemFavState(comment)"></i></a><a
+													href="#" class="icon repost" ng-show="comment.repostable" ng-click="doItemRepost(comment)"><i class="ctrl-icon-retweet" ng-class="getItemRepostState(comment)"></i></a><div 
+													href="#" class="icon more"><i class="ctrl-icon-more"></i>
+														<div class="more_menu popup_menu">
+															<ul class="items">
+																<li class="item">
+														  			<a href="#" ng-click="doItemQuote(comment)"><label class="label"><i class="icon-quote-left"></i> Quote</label></a>
+																</li>
+																<li class="item" ng-show="comment.deletable">
+														  			<a href="#" ng-click="doItemDelete(comment)" ><label class="label"><i class="icon-trash"></i> Delete</label></a>
+																</li>
+																<li class="item">
+														  			<a href="#"><label class="label"><i class="icon-info-sign"></i> Details</label></a>
+																</li>
+													  		</ul>
+													  		<i class="sharp up"></i>
+														</div>
+													</div>
+												</div>
+											</div>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<button class="load_more" ng-show="loadmore.show" ng-click="loadMore()">{{loadmore.text}}</button>
+							</div> <!-- iscroll wrapper -->
+							<div class="bg_placeholder" ng-show="isEmpty()">
+								<label>{{getPlaceholderText()}}</label>
+								<p class="details">{{getPlaceholderDetails()}}</p>
+							</div>
+						</div>
+					</section>
+				</div> <!-- .columns -->
+			</div> <!-- .columns_wrapper -->
+		</div>	
+	</div>
+	<div class="notify_bar" ng-show="notify_bar.show">
+		<div class="notification">
+			<span class="text force_one_line">{{notify_bar.text}}</span>
+			<a class="link mochi_button blue" href="{{notify_bar.link}}" ng-class="getNotifyBarLinkIcon()" target="_blank" ></a>
+		</div>
+	</div>
+	<div class="global_masks" ng-show="masks.show">
+		<div class="splash mask" ng-class="splashHideCls()" ng-show="splash.show" on-animationend="splashAniEnd">
+			<div class="content">
+				<span class="splash_text loading_text">{{splash.text}}</span>
+			</div>
+		</div>
+		<div class="guide mask" ng-class="guideHideCls()" ng-show="guide.show" ng-click="hideGuide()" on-animationend="guideAniEnd">
+		</div>
+	</div>
+	<div class="search_layer" ng-controller="SearchCtrl" ng-init="init()" ng-show="search_layer.show" ng-class="searchLayerCls()">
+		<div class="search_tools">
+			<span class="search_meta" ng-show="showMeta()">search results for <em>"{{getKeywords()}}"</em></span>
+		</div>
+		<div class="search_results_wrapper column">
+			<div class="body">
+				<ul class="search_results">
+					<li ng-repeat="item in items" class="cell_item"  data-id="{{item.id}}" data-comments="{{item.has_comments}}" ng-hide="item.hide">
+						<div class="corner_mark" ng-class="getItemCornerMarkCls(item)"></div>
+						<div class="connection"></div>
+						<div class="feature_pic">
+							<img ng-init="loadFeaturePic(item)" ng-src="{{item.feature_pic_data}}"/>
+						</div>
+						<div class="feature_pic_mask"></div>
+						<a class="media" ng-show="item.has_media" href="#" ng-click="openMediaPreview(item)">
+							<img ng-init="loadMediaThumb(item)" ng-src="{{item.media_thumb_data}}"/>
+						</a>
+						<div class="title_meta"><span class="title">{{item.title}}</span><a href="hotot://people/{{item.author.name}}" class="user_link author">@{{item.author.name}}</a></div>
+						<div class="text item_content" ng-style="getItemTextStyles()" ng-bind-html-unsafe="item.text" ng-hide="item.no_text">
+						</div>
+						<blockquote class="quote_text" ng-show="item.has_quote">
+							<p ng-bind-html-unsafe="item.quote_text"></p>
+						</blockquote>
+						<div class="attachments item_content" ng-show="item.has_attachments">
+							<div class="attachments_label">{{item.attachments_label}}</div>
+							<a href="{{att.url}}" target="_blank" class="attachment_thumb feature_pic_small" ng-repeat="att in item.attachments">
+								<img class="icon" title="{{att.title}}" ng-src="{{att.thumb_data}}" ng-init="loadAttachmentThumb(att)"/>
+							</a>
+						</div>
+						<div class="control">
+							<a href="#" class="time">{{getFormatTime(item)}}</a>
+							<div class="icons">
+								<a href="#" class="icon reply" ng-click="doItemReply(item)"><i class="ctrl-icon-reply"></i></a><a
+								href="#" class="icon star" ng-click="doItemFav(item)"><i class="ctrl-icon-star" ng-class="getItemFavState(item)"></i></a><a
+								href="#" class="icon repost" ng-click="doItemRepost(item)" ng-show="item.repostable"><i class="ctrl-icon-retweet" ng-class="getItemRepostState(item)"></i></a><div 
+								href="#" class="icon more"><i class="ctrl-icon-more"></i>
+									<div class="more_menu popup_menu">
+										<ul class="items">
+											<li class="item">
+									  			<a href="#" ng-click="doItemQuote(item)"><label class="label">Quote</label></a>
+											</li>
+											<li class="item" ng-show="item.deletable" >
+									  			<a href="#" ng-click="doItemDelete(item)"><label class="label">Delete</label></a>
+											</li>
+											<li class="item">
+									  			<a href="{{item.URL}}" target="_blank"><label class="label">Details</label></a>
+											</li>
+								  		</ul>
+								  		<i class="sharp up"></i>
+									</div>
+								</div>
+							</div>
+							<a href="#" class="comment_label" ng-click="loadComments(item)">
+								<i class="icon" ng-class="getCommentsState(item)">
+								<span class="sharp"></span>
+								</i>
+							</a>
+						</div>
+						<div class="meta"></div>
+						<ul class="comments">
+							<li ng-repeat="comment in getComments(item)" class="cell_item comment">
+								<div class="corner_mark"></div>
+								<div class="feature_pic_small">
+									<img ng-init="loadFeaturePic(comment, comment.feature_pic_url)" ng-src="{{comment.feature_pic_data}}"/>
+								</div>
+								<div class="comment_body" ng-bind-html-unsafe="comment.text">
+									<span class="author">@<a href="{{comment.author.url}}" title="{{comment.author.display_name}}" target="_blank">{{comment.author.name}}</a></span>: <span class="text" ng-bind-html-unsafe="comment.text"></span>
+								</div>
+								<div class="control">
+									<div class="icons">
+										<a href="#" class="icon reply" ng-click="doItemReply(comment)"><i class="ctrl-icon-reply"></i></a><a
+										href="#" class="icon star" ng-click="doItemFav(comment)"><i class="ctrl-icon-star" ng-class="getItemFavState(comment)"></i></a><a
+										href="#" class="icon repost" ng-show="comment.repostable" ng-click="doItemRepost(comment)"><i class="ctrl-icon-retweet" ng-class="getItemRepostState(comment)"></i></a><div 
+										href="#" class="icon more"><i class="ctrl-icon-more"></i>
+											<div class="more_menu popup_menu">
+												<ul class="items">
+													<li class="item">
+											  			<a href="#" ng-click="doItemQuote(comment)"><label class="label"><i class="icon-quote-left"></i> Quote</label></a>
+													</li>
+													<li class="item" ng-show="comment.deletable">
+											  			<a href="#" ng-click="doItemDelete(comment)" ><label class="label"><i class="icon-trash"></i> Delete</label></a>
+													</li>
+													<li class="item">
+											  			<a href="#"><label class="label"><i class="icon-info-sign"></i> Details</label></a>
+													</li>
+										  		</ul>
+										  		<i class="sharp up"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+							</li>
+						</ul><!-- comments -->
+					</li>
+				</ul>
+				<button class="load_more" ng-show="loadmore.show" ng-click="loadMore()">{{loadmore.text}}</button>
+			</div>
+		</div>
+	</div>
+	<iframe id="sandbox" src="sandbox.html" width="0" height="0" style="display:none"></iframe>
+	<!-- utils -->
+	<script type="text/javascript" src="scripts/interface.js"></script>
+	<script type="text/javascript" src="scripts/util.column.js"></script>
+	<script type="text/javascript" src="scripts/util.hotkey.js"></script>
+    <script type="text/javascript" src="scripts/util.directive.js"></script>
+	<!-- angular -->
+	<script type="text/javascript" src="scripts/angular.js"></script>
+	<script type="text/javascript" src="scripts/angular.sanitize.js"></script>
+	<!-- entry -->
+	<script type="text/javascript" src="scripts/hotot_app.js"></script>
+	<!-- 3 party libs -->
+	<script type="text/javascript" src="scripts/iscroll.js"></script>
+	<script type="text/javascript" src="scripts/lib.base64.js"></script>
+	<script type="text/javascript" src="scripts/lib.sha1.js"></script>
+	<!-- my libs -->
+	<script type="text/javascript" src="scripts/lib.oauth1.js"></script>
+	<script type="text/javascript" src="scripts/lib.oauth2.js"></script>
+	<script type="text/javascript" src="scripts/hotot.js"></script>
+	<script type="text/javascript" src="scripts/abs.column.js"></script>
+	<!-- services -->
+	<script type="text/javascript" src="scripts/serv.storage.js"></script>
+	<script type="text/javascript" src="scripts/serv.app.js"></script>
+	<script type="text/javascript" src="scripts/serv.slider.js"></script>
+	<script type="text/javascript" src="scripts/serv.columns_state.js"></script>
+	<script type="text/javascript" src="scripts/serv.cache.js"></script>
+	<script type="text/javascript" src="scripts/serv.log.js"></script>
+	<script type="text/javascript" src="scripts/serv.message.js"></script>
+	<script type="text/javascript" src="scripts/serv.settings.js"></script>
+	<script type="text/javascript" src="scripts/serv.bus.js"></script>
+	<script type="text/javascript" src="scripts/serv.conn.js"></script>
+	<script type="text/javascript" src="scripts/serv.dialog.js"></script>
+	<script type="text/javascript" src="scripts/serv.notify.js"></script>
+	<script type="text/javascript" src="scripts/serv.daemon.js"></script>
+	<script type="text/javascript" src="scripts/serv.relation.js"></script>
+	<script type="text/javascript" src="scripts/proto.base.js"></script>
+	<script type="text/javascript" src="scripts/proto.twitter.js"></script>
+	<script type="text/javascript" src="scripts/proto.weibo.js"></script>
+	<!-- controllers -->
+	<script type="text/javascript" src="scripts/ctrl.main.js"></script>
+	<script type="text/javascript" src="scripts/ctrl.nav.js"></script>
+	<script type="text/javascript" src="scripts/ctrl.column_area.js"></script>
+	<script type="text/javascript" src="scripts/ctrl.column.js"></script>
+	<script type="text/javascript" src="scripts/ctrl.win.js"></script>
+	<script type="text/javascript" src="scripts/ctrl.search.js"></script>
+	<!-- components -->
+    <script type="text/javascript" src="scripts/com.account_selector.js"></script>
+	<script type="text/javascript" src="scripts/sandbox.js"></script>
+</body>
+</html>

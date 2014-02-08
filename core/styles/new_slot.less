@@ -1,0 +1,85 @@
+body {
+    overflow: hidden;
+}
+#container {
+    width: 560px;
+    .side {
+        width: 160px;
+        height: 340px;
+        float: left;
+    }
+    .body {
+        width: 400px;
+        height: 340px;
+        margin-left: 162px;
+        .page {
+            display: block;
+            padding: 20px 30px;
+        }
+        .auth {
+            padding: 40px 60px;
+            label {
+                font-weight: bold;
+            }
+            .username, .password {
+                width: 280px;
+            }
+            .signin_button {
+                .icon {
+                    display: none;
+                    margin-right: 10px;
+                }
+            }
+            .signin_button.processing {
+                .label {
+                    content: "Processing"
+                }
+            }
+        }
+        .oauth {
+            .pin {
+                width: 120px;
+            }
+            webview {
+                overflow: auto;
+            }
+        }
+    }
+}
+#container {
+    .services {
+        .twitter {
+            .icon {
+                background-image: url(../images/service/twitter.png);
+            }
+        }
+        .statusnet {
+            .icon {
+                background-image: url(../images/service/statusnet.png);
+            }
+        }
+        .weibo {
+            .icon {
+                background-image: url(../images/service/weibo.png);
+            }
+        }
+        .facebook {
+            .icon {
+                background-image: url(../images/service/facebook.png);
+            }
+        }
+        .gplus {
+            .icon {
+                background-image: url(../images/service/gplus.png);
+            }
+        }
+    }
+}
+@-webkit-keyframes spin {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}

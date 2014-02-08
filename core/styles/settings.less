@@ -1,0 +1,102 @@
+body {
+    font-size: 14px;
+    width: 640px;
+    overflow: auto;
+    background: rgb(237,237,237); //-webkit-gradient(linear, left top, left bottom, from(#FEFEFE), to(#EDEDED));
+}
+
+#container {
+    .side {
+        width: 160px;
+        height: 440px;
+        float: left;
+        position: relative;
+        .shadow {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            width: 20px;
+            height: 100%;
+            background: transparent url(../images/side_shadow.png) 0 0 repeat-y;
+        }
+    }
+    .body {
+        margin-left: 162px;
+        .page {
+            display: block;
+            height: 420px;
+            overflow: auto;
+            h3 {
+                font-weight: bold;
+                padding: 5px 0;
+            }
+            .mochi_list_item .label {
+                font-weight: normal;
+                color: #333;
+            }
+        }
+        .account_page {
+            .wrapper {
+                border: 1px #bbb solid;
+            }
+            .account_box {
+                display: block;
+                height: 380px;
+                overflow: auto;
+                background-color: white;
+                border-bottom: 1px #bbb solid;
+                .account_list {
+                    list-style: none;
+                }
+                .account {
+                    height: 22px;
+                    padding: 3px 8px;
+                    .avatar {
+                        height: 22px;
+                        width: 22px;
+                        vertical-align: middle;
+                    }
+                    .name {
+                        vertical-align: middle;
+                    }
+                    .serv {
+                        vertical-align: middle;
+                    }
+                }
+                .account:nth-child(even) {
+                    background-color: #f4f4f4;
+                }
+                .account.selected {
+                    background-color: #29f;
+                    color: white;
+                }
+            }
+            .control {
+                height: 24px;
+                background: -webkit-gradient(
+                    linear, left top, left bottom,
+                    color-stop(0%, rgb(249,249,249)), color-stop(49%, rgb(242,242,242)), 
+                    color-stop(50%, rgb(237,237,237)), color-stop(100%, rgb(240,240,240))
+                );
+                .button {
+                    display: inline-block;
+                    height: 24px;
+                    width: 24px;
+                    text-decoration: none;
+                    color: black;
+                    text-align: center;
+                    line-height: 24px;
+                    opacity: 0.6;
+                    border-right: 1px #aaa solid;
+                    text-shadow: 0 1px 1px #fff;
+                }
+                .button:hover {
+                    opacity: 1;
+                }
+                .button.disabled {
+                    color: #aaa;
+                }
+            }
+        }
+    }
+}

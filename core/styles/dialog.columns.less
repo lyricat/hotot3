@@ -1,0 +1,172 @@
+html,body {   
+    height: 100%;
+    width: 100%;
+}
+
+#container {
+    height: 100%;
+    width: 100%;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, #e6e6e8));
+    overflow: auto;
+    display: -webkit-flex;
+    -webkit-flex-direction: column;
+    .small_button {
+        min-width: 0;
+        padding: 0px;
+        width: 25px;
+        line-height: 0px;
+        height: 25px;
+        text-align: center;
+        margin: 2px;
+    }
+    .top {
+        -webkit-flex: 0 0 28px;
+        -webkit-app-region: drag;
+        padding: 2px 6px;
+        box-shadow: 0 0 10px #ddd;
+    }
+    .add {
+        float: right;
+    }
+}
+.body {
+    -webkit-flex: 1 0 auto;
+    -webkit-order: 1;
+    .column_list {
+        background: transparent url(../images/grid_cell@2x.png);
+        background-size: 40px;
+        padding: 5px 10px;
+        .columns {
+            display: -webkit-flex;
+            -webkit-flex-direction: row;
+            .column {
+                -webkit-flex: 1 0 auto;
+                -webkit-order: 1;
+                height: 64px;
+                display: block;
+                padding: 10px;
+                margin: 4px;
+                border-radius: 6px;
+                position: relative;
+                .column_inner {
+                    display: block;
+                    text-align: center;
+                    box-shadow: 0px 1px 3px #aaa;
+                    border-radius: 6px;
+                    transition: all 0.2s ease;
+                    cursor: pointer;
+                    background: white;
+                    height: 64px;
+                }
+                .icon {
+                    opacity: 0.3;
+                    margin-top: 16px;
+                }
+                .caret_frame {
+                    position: absolute;
+                    bottom: -10px;
+                    left: 50%;
+                    margin-left: -6px;
+                    border-left: 8px transparent solid;
+                    border-right: 8px transparent solid;
+                    border-bottom: 6px #ddd solid;
+                    display: block;
+                    content: " ";
+                    height: 0;
+                    width: 0;
+                    display: none;
+                }
+                .caret {
+                    position: absolute;
+                    bottom: -11px;
+                    left: 50%;
+                    margin-left: -6px;
+                    border-left: 8px transparent solid;
+                    border-right: 8px transparent solid;
+                    border-bottom: 5px #f2f2f2 solid;
+                    display: block;
+                    content: " ";
+                    height: 0;
+                    width: 0;
+                    display: none;
+                }
+            }
+            .column.selected {
+                background: #f2f2f2;
+                box-shadow: inset 0px 1px 3px #aaa;
+                .caret_frame {
+                    display: block;
+                }
+                .caret {
+                    display: block;
+                }
+            }
+            .column.selected:before {
+                border-color: #29f;
+            }
+        }
+    }
+    .column_info {
+        border-top: #ddd 1px solid;
+        padding: 2px 10px;
+        clear: both;
+        .column_title {
+            float: left;
+            height: 44px;
+            line-height: 60px;
+            font-size: 22px;
+            text-shadow: 0 1px 1px #fff;
+            padding-bottom: 10px;
+        }
+        h3 {
+            font-size: 13px;
+            padding: 6px 0 3px 0;
+            text-shadow: 0 1px 1px #fff;
+        }
+        .column_ctrl {
+            height: 30px;
+            margin-top: 16px;
+            button, select {
+                float: right;
+            }
+        }
+        .column_desc {
+            clear: both;
+            height: 80px;
+            border-top: 1px #ccc solid;
+            font-size: 12px;
+            .param {
+                background: gray;
+                color: white;
+                padding: 2px 4px 2px 4px;
+                border-radius: 2px;
+                vertical-align: text-top;
+                margin: 4px;
+                display: inline-block;
+            }
+        }
+    }
+    .column_info {
+        .column_mute {
+            input {
+                width: 100%;
+                font-size: 12px;
+            }
+        }
+    }
+}
+.hint {
+    text-align: center;
+    padding: 4px 30px;
+    font-size: 14px;
+    border-radius: 4px;
+    p {
+        padding: 7px;
+        color: #aaa;
+    }
+}
+.add_column_box {
+    .ctrl {
+        margin-top: 10px;
+    }
+}

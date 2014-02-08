@@ -1,0 +1,114 @@
+body, html {   
+    height: 100%;
+    width: 100%;
+}
+
+#container {
+    height: 100%;
+    width: 100%;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, #f2f2f2));
+    overflow: hidden;
+    -webkit-flex-direction: column;
+    display: -webkit-flex;
+    position: relative;
+    .control {
+        position: absolute;
+        right: 20px;
+        bottom: 80px;
+        a {
+            width: 32px;
+            height: 32px;
+            display: block;
+            text-align: center;
+            line-height: 30px;
+            margin-bottom: 1px;
+            background: white;
+            opacity: 0.2;
+            transition: opacity 0.2s ease;
+        }
+        .download {
+            margin-top: 4px;
+        }
+        a:hover {
+            opacity: 0.4;
+        }
+    }
+    .previewer {
+        -webkit-flex: 1 0 auto;
+        -webkit-order: 1;
+        overflow: auto;
+        height: 100%;
+        width: 100%;
+        .image {
+            display: block;
+            margin: 2% auto 2% auto;
+            box-shadow: 1px 1px 4px #999;
+            opacity: 1;
+            -webkit-animation-name: ani_fade_in;
+            -webkit-animation-duration: 0.5s;
+            -webkit-animation-iteration-count:  1;
+            -webkit-animation-timing-function: ease;
+                transition: all 0.2s ease;
+        }
+        .image.hide {
+            display: none;
+        }
+        .placeholder {
+            display: block;
+            box-shadow: none;
+            width: 200px;
+            height: 50px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -30px;
+            margin-left: -100px;
+            text-align: center;
+        }
+    }
+    .slider {
+        padding: 5px;
+        height: 44px;
+        -webkit-order: 2;
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255,255,255,0.15)), color-stop(100%, rgba(255,255,255,0.2)));
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border-top: 1px rgba(255,255,255,0.2) solid;
+        opacity: 0.1;
+        transition: opacity 0.2s ease;
+        .pictures {
+            margin-left: 0;
+            width: 1000px;
+            left: 50%;
+            position: absolute;
+            transition: all 0.2s ease;
+        }
+        .picture {
+            color: #333;
+            width: 42px;
+            height: 42px;
+            display: block;
+            margin: 0 4px;
+            float: left;
+            img {
+                max-width: 38px;
+                max-height: 38px;
+                border: 2px solid black;
+            }
+        }
+        .glass {
+            position: absolute;
+            width: 54px;
+            height: 54px;
+            bottom: 0;
+            left: 50%;
+            margin-left: -27px;
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(255, 255, 255, 0.3)), color-stop(100%, rgba(255, 255, 255, 0.3)));
+        }
+    }
+    .slider:hover {
+        opacity: 1;
+    }
+}

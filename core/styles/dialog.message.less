@@ -1,0 +1,165 @@
+body {
+    overflow: hidden;
+}
+.enable_select {
+    -webkit-touch-callout: text;
+    -webkit-user-select: text;
+    user-select: text;
+}
+#container {
+    height: 100%;
+    width: 100%;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, #e6e6e8));
+    overflow: hidden;
+    display: -webkit-flex;
+    -webkit-flex-direction: column;
+    .top {
+        -webkit-flex: 0 0 28px;
+        padding: 2px 6px;
+        -webkit-app-region: drag;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        position: fixed;
+        right: 0;
+        left: 0;
+        z-index: 100;
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, rgba(255,255,255,0.9)));
+    }
+    .add {
+        float: right;
+        height: 28px;
+        line-height: 26px;
+        font-size: 12px;
+    }
+}
+.body {
+    -webkit-flex: 1 0 auto;
+    -webkit-order: 1;
+    .side {
+        width: 160px;
+        height: 340px;
+        padding-top: 32px;
+        .people_name {
+            font-size: 12px;
+        }
+    }
+    .tabs_body {
+        width: 400px;
+        height: 340px;
+        margin-left: 162px;
+        font-size: 14px;
+        .messages {
+            overflow: auto;
+            border-bottom: 1px #ccc solid;
+            position: absolute;
+            left: 160px;
+            right: 0px;
+            top: 0px;
+            bottom: 38px;
+            .messages_inner {
+                padding: 32px 10px 0 5px;
+            }
+            .message {
+                min-height: 32px;
+                position: relative;
+                margin: 8px 0;
+                .avatar {
+                    position: absolute;
+                    left: 0;
+                    bottom: 0;
+                    width: 32px;
+                    height: 32px;
+                    img {
+                        width: 32px;
+                        height: 32px;                        
+                    }
+                }
+                .message_body {
+                    margin-left: 40px;
+                    bottom: 0;
+                    border-radius: 6px;
+                    max-width: 80%;
+                    display: inline-block;
+                    .message_text {
+                        padding: 5px 8px;
+                        font-size: 12px;
+                        text-shadow: 0 1px 1px white;
+                        min-height: 22px;
+                        line-height: 22px;
+                    }
+                    .message_caret {
+                        top: auto;
+                        bottom: 4px;
+                    }
+                }
+            }
+            .message.right {
+                text-align: right;
+                .avatar {
+                    left: auto;
+                    right: 0;
+                }
+                .message_body {
+                    margin-right: 40px;
+                    .message_text {
+                        text-align: right;
+                    }
+                }
+            }
+        }
+        .control {
+            height: 24px;
+            padding: 4px 10px 10px 5px;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            left: 160px;
+           .text_wrapper {
+                background: transparent;
+                padding: 4px 0px;
+                margin: 0 6px;
+                .text_box {
+                    background: transparent;
+                    border: 0;
+                    outline: none;
+                    margin: 0;
+                    width: 100%;
+                    padding: 0;
+                    height: 18px;
+                    resize: none;
+                    font-size: 13px;
+                }
+                .char_counter {
+                    position: absolute;
+                    width: 3em;
+                    bottom: 2px;
+                    right: 3px;
+                    text-align: right;
+                    font-size: 12px;
+                    color: #d0d4da;
+                }
+                .char_counter.red {
+                    color: #E44;
+                }
+            }
+        }       
+    }
+}
+.add_con_box {
+    .widget {
+        width: 400px;
+    }
+    .textbox_wrapper {
+        height: 100px;
+        textarea {
+            height: 100px;
+        }
+    }
+}
+@-webkit-keyframes spin {
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}

@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html lang="en-US" ng-app="HototAlertDialog" ng-csp>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../styles/comm.css" />
+    <link rel="stylesheet" href="../styles/mochi.css" />
+    <link rel="stylesheet" href="../styles/font-awesome.css">
+    <link rel="stylesheet" href="../styles/dialog.alert.css" />
+    <script type="text/javascript" src="../scripts/angular.js"></script>
+    <script type="text/javascript" src="../scripts/dialog.alert.js"></script>
+    <title>Alert</title>
+</head>
+<body>
+<div id="container" class="" ng-controller="AlertCtrl">
+    <h1 class="title">{{props.title}}</h1>
+    <div class="text">{{props.text}}</div>
+    <div class="buttons">
+        <a href="#" ng-repeat="btn in getButtons()" ng-click="onButtonClick(btn)" class="mochi_button button" ng-class="btn.cls">{{btn.label}}</a>
+    </div>
+</div>
+</body>
+</html>

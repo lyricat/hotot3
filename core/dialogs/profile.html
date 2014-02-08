@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html lang="en-US" ng-app="HototProfileDialog" ng-csp>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../styles/comm.css" />
+    <link rel="stylesheet" href="../styles/mochi.css" />
+    <link rel="stylesheet" href="../styles/dialog.profile.css" />
+    <link rel="stylesheet" href="../styles/component.css" />
+    <script type="text/javascript" src="../scripts/angular.js"></script>
+    <script type="text/javascript" src="../scripts/interface.js"></script>
+    <script type="text/javascript" src="../scripts/util.directive.js"></script>
+    <script type="text/javascript" src="../scripts/hotot.js"></script>
+    <script type="text/javascript" src="../scripts/dialog.profile.js"></script>
+    <script type="text/javascript" src="../scripts/com.account_selector.js"></script>
+    <title>Profile</title>
+</head>
+<body>
+<div ng-controller="ProfileCtrl">
+    <div class="top">
+        <account-selector slots="slots" current="currentSlot" selection="currentSlot" on-changed="selectSlot">
+        </account-selector>
+    </div>
+    <div class="body">
+        <ul class="mochi_list">
+            <li class="mochi_list_item avatar_wrapper">
+                <div class="avatar widget"><img class="icon" ng-init="fetchAvatar()" ng-src="{{currentSlot.avatar}}" alt=""/><span class="mask"></span></div>
+                <span class="popup">
+                    <button class="mochi_button" ng-click="updateAvatar()" ng-disabled="uploadButton.disabled">{{uploadButton.label}}</button>
+                    <!-- <button class="mochi_button" ng-click="takePhoto()">Take a photo</button> -->
+                </span>
+                <label class="label" data-i18n-text="name">Avatar</label>
+            </li>
+            <li class="mochi_list_item">
+                <input title="Name" class="widget mochi_entry"  type="text" ng-model="currentSlot.profile.display_name">
+                <label class="label" data-i18n-text="name">Name</label>
+            </li>
+            <li class="mochi_list_item">
+                <input title="Location" class="widget mochi_entry" type="text" ng-model="currentSlot.profile.location">
+                <label class="label" data-i18n-text="location">Location</label>
+            </li>
+            <li class="mochi_list_item">
+                <input title="Website" class="widget mochi_entry"  type="text" ng-model="currentSlot.profile.raw_url">
+                <label class="label" data-i18n-text="website">Website</label>
+            </li>
+            <li class="mochi_list_item textarea_wrapper">
+                <textarea title="Bio" class="widget mochi_textarea"  ng-model="currentSlot.profile.description"></textarea>
+                <label class="label" data-i18n-text="bio">Bio</label>
+            </li>
+            <li class="mochi_list_item">
+                <button class="mochi_button save" ng-click="updateProfile()" ng-disabled="isUnchanged(currentSlot.profile)">{{saveButton.label}}</button>
+            </li>
+        </ul>
+    </div>
+    <div>
+    </div>
+</div>
+</body>
+</html>

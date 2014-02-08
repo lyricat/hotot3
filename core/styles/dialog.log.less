@@ -1,0 +1,32 @@
+body, html {   
+    height: 100%;
+    width: 100%;
+}
+
+#container {
+    height: 100%;
+    width: 100%;
+    background: white;
+    overflow: auto;
+    -webkit-touch-callout: text;
+    -webkit-user-select: text;
+    user-select: text;
+    .logs {
+        font-size: 11px;
+        list-style: none;
+        padding: 5px;
+        .item {
+            -webkit-touch-callout: text;
+            -webkit-user-select: text;
+            user-select: text;
+            color: #333;
+            padding: 1px 0;
+        }
+        .warn {
+            color: orange;
+        }
+        .error {
+            color: red;
+        }
+    }
+}

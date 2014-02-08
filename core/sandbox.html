@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<script type="text/javascript">
+		window.addEventListener("message", function(ev) {
+			var id = ev.data.id;
+			var cmd = ev.data.cmd;
+			var context = ev.data.context;
+    	// console.log(ev)
+			switch (cmd) {
+			case 'ok?':
+				ev.source.postMessage({
+					id: id, state:0, result: 'ok.'	
+				}, ev.origin);
+			break;
+			default:
+				ev.source.postMessage({
+					id: id,
+					state: 1,
+					result: "I don't know what are you talking about."
+				}, ev.origin)
+			break;
+			}
+		});	
+		// tell father i am ready.
+	</script>
+</body>
+</html>

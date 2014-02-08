@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html lang="en-US" ng-app="HototPreviewDialog" ng-csp>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../styles/comm.css" />
+    <link rel="stylesheet" href="../styles/mochi.css" />
+    <link rel="stylesheet" href="../styles/dialog.preview.css" />
+    <script type="text/javascript" src="../scripts/angular.js"></script>
+    <script type="text/javascript" src="../scripts/interface.js"></script>
+    <script type="text/javascript" src="../scripts/hotot.js"></script>
+    <script type="text/javascript" src="../scripts/util.directive.js"></script>
+    <script type="text/javascript" src="../scripts/dialog.preview.js"></script>
+    <title>Preview</title>
+</head>
+<body>
+<div id="container" class="" ng-controller="PreviewCtrl">
+    <div class="previewer">
+        <img class="image" ng-src="{{previewer.data}}" on-loaded="previewerLoaded" ng-style="previewerStyles()" ng-class="previewerShow()"/>
+        <div class="placeholder loading_text" ng-show="previewer.placeholder_show">loading…</div>
+    </div>
+    <div class="control">
+        <a href="#" class="zoom_in" ng-click="zoomIn()"><i class="mono-icon-zoom-in"></i></a>
+        <a href="#" class="zoom_out" ng-click="zoomOut()"><i class="mono-icon-zoom-out"></i></a>
+        <a href="#" class="download" ng-click="download()"><i class="mono-icon-download"></i></a>
+        <a href="#" class="share" ng-click="share()"><i class="mono-icon-share"></i></a>
+    </div>
+    <div class="slider" ng-show="slider.show">
+        <div class="pictures" ng-style="getSliderStyles()">
+        <a href="#" ng-repeat="pic in media" class="picture" ng-click="select($index)">
+            <img src="" ng-src="{{pic.thumb_data}}" />
+        </a>
+        </div>
+        <div class="glass"></div>
+    </div>
+</div>
+</body>
+</html>

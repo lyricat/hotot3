@@ -1,0 +1,12 @@
+       <div class="page oauth" ng-init="initPage()">
+            <p><label class="hint strong">Add a <i>{{service}}</i> account</label></p>
+            <p><label class="hint strong">Username</label></p>
+            <p><input type="text" class="mochi_entry username" ng-model="username" value="" /></p>
+            <p><label class="hint strong">Password</label></p>
+            <p><input type="password" class="mochi_entry password" ng-model="password" value=""/></p>
+            <p class="error" ng-show="error_box.show">{{error_box.text}}</p>
+            <p style="text-align: right; margin: 30px 0;">
+                <button class="signin_button mochi_button blue" ng-class="signin_button.cls" ng-click="auth(username, password)" ng-mouseenter="hoverSignInButton()" ng-mouseleave="noHoverSignInButton()"><i class="label">{{signin_button.label}}</i></button>
+            </p>            
+            <p><webview id="webview" src="" width="400" height="225" ng-src="{{getAuthorizeURL()}}" on-loadstop="webviewLoadstop" on-loadcommit="webviewLoadcommit"></webview></p>
+        </div>

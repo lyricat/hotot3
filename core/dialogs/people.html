@@ -1,0 +1,149 @@
+<!DOCTYPE HTML>
+<html lang="en-US" ng-app="HototPeopleDialog" ng-csp>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../styles/comm.css" />
+    <link rel="stylesheet" href="../styles/mochi.css" />
+    <link rel="stylesheet" href="../styles/column.css" />
+    <link rel="stylesheet" href="../styles/dialog.people.css" />
+    <script type="text/javascript" src="../scripts/angular.js"></script>
+    <script type="text/javascript" src="../scripts/interface.js"></script>
+    <script type="text/javascript" src="../scripts/hotot.js"></script>
+    <script type="text/javascript" src="../scripts/dialog.people.js"></script>
+    <title>People</title>
+</head>
+<body ng-controller="PeopleCtrl">
+<div class="scroller">
+    <div class="container">
+        <div class="vcard" ng-style="getVCardStyles()">
+            <div class="control">
+                <button href="#" class="follow_btn follow blue" ng-class="followButton.cls" ng-mouseenter="followButtonMouseEnter()" ng-mouseleave="followButtonMouseLeave()" ng-click="followButtonAction()">{{followButton.label}}</button>
+                <button href="#" class="mention" ng-click="mention()">Mention</button>
+                <button href="#" class="more">More
+                    <div class="more_menu popup_menu">
+                        <ul class="items">
+                            <li class="item">
+                                <a href="#" ng-click="openMessageDialog()"><label class="label">Send Message</label></a>
+                            </li>
+                            <li class="item sep"></li>
+                            <li class="item">
+                                <a href="#" ng-click="addToColumn()"><label class="label">Add to Column</label></a>
+                            </li>
+                            <li class="item sep"></li>
+                            <li class="item">
+                                <a href="#" ng-click="block()"><label class="label">Block</label></a>
+                            </li>
+                            <li class="item">
+                                <a href="#" ng-click="markSpam()"><label class="label">Report Spam</label></a>
+                            </li>
+                        </ul>
+                        <i class="sharp up"></i>
+                    </div>
+                </button>
+            </div>
+            <div class="avatar"><img class="icon" ng-src="{{user.avatar}}" alt=""/><span class="mask"></span></div>
+            <div class="body enable_select">
+                <div class="display_name force_one_line">{{user.display_name}}</div>
+                <div class="name force_one_line"><a target="_blank" ng-href="{{user.direct_url}}">@{{user.name}}</a></div>
+<!--                 <div class="description" ng-show="hasDescription()" ng-bind-html-unsafe="user.description"></div>
+                <div class="url force_one_line" ng-show="hasWebsite()" ng-bind-html-unsafe="user.url"></div>
+ -->            </div>
+        </div>
+        <div id="main" class="main">
+            <div class="tabs">
+                <a href="#" ng-repeat="col in columns" class="tab_button" 
+                   ng-class="getTabCls($index)" ng-click="selectTab(col.name)">
+                    <span class="label">{{col.label}}</span>
+                    <span class="count">{{getTabCount(col.name)}}</span>
+                    <i class="caret_frame"></i>
+                    <i class="caret"></i>
+                </a>
+            </div>
+            <div class="tab_pages">
+                <section class="column" ng-repeat="col in columns" ng-show="col.show" ng-controller="PeopleColumnCtrl" class="column" ng-init="initColumn(col)" ng-click="onDelegatedClick($event)">
+                    <div class="body">
+                        <ul class="content items" ng-show="hasItems()">
+                            <li ng-repeat="item in items" class="cell_item"  data-id="{{item.id}}" data-comments="{{item.has_comments}}" ng-hide="item.hide">
+                                <div class="corner_mark" ng-class="getItemCornerMarkCls(item)"></div>
+                                <div class="connection"></div>
+                                <div class="feature_pic">
+                                    <img ng-init="loadFeaturePic(item)" ng-src="{{item.feature_pic_data}}"/>
+                                </div>
+                                <div class="feature_pic_mask"></div>
+                                <a class="media" ng-show="item.has_media" href="#" ng-click="openMediaPreview(item)">
+                                    <img ng-init="loadMediaThumb(item)" ng-src="{{item.media_thumb_data}}"/>
+                                </a>
+                                <div class="title_meta"><span class="title">{{item.title}}</span><a href="{{item.author.url}}" class="author" target="_blank">@{{item.author.name}}</a></div>
+                                <div class="text item_content" ng-style="getItemTextStyles()" ng-bind-html-unsafe="item.text" ng-hide="item.no_text">
+                                </div>
+                                <blockquote class="quote_text" ng-show="item.has_quote">
+                                    <p ng-bind-html-unsafe="item.quote_text"></p>
+                                </blockquote>
+                                <div class="attachments item_content" ng-show="item.has_attachments">
+                                    <div class="attachments_label">{{item.attachments_label}}</div>
+                                    <a href="{{att.url}}" target="_blank" class="attachment_thumb feature_pic_small" ng-repeat="att in item.attachments">
+                                        <img class="icon" title="{{att.title}}" ng-src="{{att.thumb_data}}" ng-init="loadAttachmentThumb(att)"/>
+                                    </a>
+                                </div>
+                                <div class="control">
+                                    <a href="#" class="time">{{getFormatTime(item)}}</a>
+                                    <div class="icons">
+                                        <a href="#" class="icon reply" ng-click="doItemReply(item)"><i class="ctrl-icon-reply"></i></a><a
+                                        href="#" class="icon star" ng-click="doItemFav(item, item.favorited)"><i class="ctrl-icon-star" ng-class="getItemFavState(item)"></i></a><a
+                                        href="#" class="icon repost" ng-click="doItemRepost(item)" ng-show="item.repostable"><i class="ctrl-icon-retweet" ng-class="getItemRepostState(item)"></i></a><div 
+                                        href="#" class="icon more"><i class="ctrl-icon-more"></i>
+                                            <div class="more_menu popup_menu">
+                                                <ul class="items">
+                                                    <li class="item">
+                                                        <a href="#" ng-click="doItemQuote(item)"><label class="label">Quote</label></a>
+                                                    </li>
+                                                    <li class="item" ng-show="item.deletable" >
+                                                        <a href="#" ng-click="doItemDelete(item)"><label class="label">Delete</label></a>
+                                                    </li>
+                                                    <li class="item">
+                                                        <a href="{{item.URL}}" target="_blank"><label class="label">Details</label></a>
+                                                    </li>
+                                                </ul>
+                                                <i class="sharp up"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="meta"></div>
+                            </li>
+                        </ul>
+                        <ul class="content people" ng-show="hasPeople()">
+                            <li ng-repeat="people in peopleList" class="cell_item"  data-id="{{people.id}}">
+                                <div class="corner_mark"></div>
+                                <div class="connection"></div>
+                                <div class="feature_pic">
+                                    <img ng-init="loadAvatar(people)" ng-src="{{people.avatar_data}}"/>
+                                </div>
+                                <div class="feature_pic_mask"></div>
+                                <div class="title_meta"><span class="title">{{people.display_name}}</span><a href="{{people.direct_url}}" class="author" target="_blank">@{{people.name}}</a></div>
+                                <div class="text item_content" ng-style="getItemTextStyles()" ng-bind-html-unsafe="people.description">
+                                </div>
+                                <div class="control">
+                                    <a href="#" class="time">{{getPeopleFollowStatus(people)}}</a>
+                                    <div class="icons">
+                                        <a href="{{people.direct_url}}" target="_blank" class="mochi_button people_op_button" ng-click="doPeopleOp(people, $event)" ng-class="getPeopleFollowCls(people)">{{getPeopleOpLabel(people)}}</a>
+                                    </div>
+                                </div>
+                                <div class="meta"></div>
+                            </li>
+                        </ul>
+                        <div class="bg_placeholder" ng-hide="hasContent()">
+                            <label>{{getPlaceholderText()}}</label>
+                            <p class="details">{{getPlaceholderDetails()}}</p>
+                        </div>
+                    </div> <!--body-->
+                </section> 
+            </div> <!-- tab_pages -->
+        </div> <!-- main -->
+    </div> <!-- container -->
+</div>  <!--.scroller-->
+<div class="loading_mask" ng-show="loading_mask.show">
+    <div class="loading_label">Loading ... </div>
+</div>
+</body>
+</html>

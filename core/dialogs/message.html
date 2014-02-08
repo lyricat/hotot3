@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html lang="en-US" ng-app="HototMessageDialog" ng-csp>
+<head>
+    <meta charset="UTF-8">
+    <title>Message</title>
+    <link rel="stylesheet" href="../styles/comm.css" />
+    <link rel="stylesheet" href="../styles/mochi.css" />
+    <link rel="stylesheet" href="../styles/dialog.message.css" />
+    <link rel="stylesheet" href="../styles/component.css" />
+    <script type="text/javascript" src="../scripts/angular.js"></script>
+    <script type="text/javascript" src="../scripts/angular.sanitize.js"></script>
+    <script type="text/javascript" src="../scripts/interface.js"></script>
+    <script type="text/javascript" src="../scripts/hotot.js"></script>
+    <script type="text/javascript" src="../scripts/util.directive.js"></script>
+    <script type="text/javascript" src="../scripts/dialog.message.js"></script>
+    <script type="text/javascript" src="../scripts/util.tabs_frame.js"></script>
+    <script type="text/javascript" src="../scripts/com.account_selector.js"></script>
+</head>
+<body ng-controller="MessageCtrl">
+<div id="container">
+    <div class="top">
+        <button class="add topbar_button" ng-click="addConversation()">
+            <i class="mono-icon-plus"></i>
+        </button>
+        <account-selector slots="slots" current="currentSlot" selection="currentSlot" on-changed="selectSlot">
+        </account-selector>
+    </div>
+    <div class="body side_tabs" ng-controller="TabsFrameCtrl" ng-init="initTabs(conversations.length)">
+        <div class="side peoples tabs">
+            <div href="#" class="tab_button" ng-class="tabSelected[$index]" ng-repeat="con in getCurrentConversations()" ng-click="select($index); selectConversation(con)">
+                <div class="icon avatar feature_pic_small">
+                    <img ng-src="{{con.user.avatar_data}}" ng-init="loadAvatar(con.user)">
+                </div>
+                <label class="label people_name force_one_line">{{con.user.name}}</label>
+                <i class="sharp"></i>
+            </div>
+            <div class="shadow"></div>
+        </div>
+        <div class="tabs_body">
+            <div class="messages">
+                <ul class="messages_inner">
+                    <li ng-repeat="msg in currentConversation.messages" class="message" ng-class="getMessageDirection(msg)">
+                        <div class="avatar feature_pic_small">
+                            <img ng-src="{{msg.sender.avatar_data}}" ng-init="loadAvatar(msg.sender)">
+                        </div>
+                        <div class="bubble message_body">
+                            <div class="bubble_text message_text enable_select" title="" ng-bind-html-unsafe="msg.text"></div>
+                            <div class="bubble_caret message_caret" ng-class="getMessageDirection(msg)">
+                                <div class="bubble_caret_inner"></div>
+                                <div class="bubble_caret_outer"></div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="control">
+                <div class="bubble">
+                    <div class="text_wrapper bubble_text">
+                        <input type="text" tabindex="1" name="" ng-model="text" on-keydown="handleKeyDown" on-keyup="handleKeyUp" id="" cols="30" rows="1" class="text_box" value=""/>
+                        <div class="char_counter" ng-class="charNumWarm()">{{props.remainCharNum}}</div>
+                    </div>
+                    <div class="bubble_caret right">
+                        <div class="bubble_caret_inner"></div>
+                        <div class="bubble_caret_outer"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="add_con_box dialog_float_box" ng-show="add_con_box.show">
+        <ul class="mochi_list">
+            <li class="mochi_list_item">
+                <input type="text widget" class="mochi_entry widget" ng-model="add_con_box.recipient" placeholder="{{pa.placeholder_text}}">
+                    <datalist>
+                        <option value="Homer Simpson">
+                        <option value="Bart">
+                        <option value="Fred Flinstone">
+                    </datalist>
+                  </input>
+                <label class="label">TO:</label>
+            </li>
+        </ul>
+        <ul class="mochi_list">
+            <li class="mochi_list_item textbox_wrapper">
+                <textarea class="mochi_textarea widget" ng-model="add_con_box.text"></textarea>
+                <label class="label">Text:</label>
+            </li>
+        </ul>
+        <p class="ctrl"> 
+            <button class="mochi_button " ng-click="discard()">Discard</button>
+            <button class="mochi_button blue pull-right" ng-click="sendMessage()">Send</button>
+        </p>
+    </div>
+</div>
+</body>
+</html>

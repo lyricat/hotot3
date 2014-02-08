@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html lang="en-US" ng-app="HototSettingsDialog" ng-csp>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../styles/comm.css" />
+    <link rel="stylesheet" href="../styles/mochi.css" />
+    <link rel="stylesheet" href="../styles/settings.css" />
+    <script type="text/javascript" src="../scripts/interface.js"></script>
+    <script type="text/javascript" src="../scripts/angular.js"></script>
+    <script type="text/javascript" src="../scripts/dialog.settings.js"></script>
+    <script type="text/javascript" src="../scripts/util.tabs_frame.js"></script>
+    <title>Settings</title>
+</head>
+<body ng-controller="SettingsCtrl">
+<div id="container" class="side_tabs" ng-controller="TabsFrameCtrl">
+    <div class="side tabs" ng-init="initTabs(3)">
+        <a href="#" class="tab_button general {{tabSelected[0]}}" ng-click="select(0); selectPage(0);">
+            <label class="label">General</label>
+            <i class="sharp"></i>
+        </a>
+        <a href="#" class="tab_button behavior {{tabSelected[1]}}" ng-click="select(1); selectPage(1);">
+            <label class="label">Accounts</label>
+            <i class="sharp"></i>
+        </a>
+        <div class="shadow"></div>
+    </div>
+    <div class="body tabs_body">
+        <div class="general_page page" ng-show="pages.general.show">
+            <ul class="mochi_list">
+                <li class="mochi_list_item">
+                    <select class="mochi_combo widget" title="Select a language" ng-model="settings.language.value" ng-options="obj.text for obj in settings.language.list" ng-change="changeLanguage()">
+                    </select>
+                    <label class="label">{{settings.language.label}}</label>
+                </li>
+            </ul>
+            <ul class="mochi_list">
+                <li class="mochi_list_item">
+                    <input id="range_prefs_font_size" title="Font Size" class="widget" max="{{settings.font_size.max}}" min="{{settings.font_size.min}}" step="{{settings.font_size.step}}" ng-model="settings.font_size.value" ng-change="changeFontsize()" style="width:200px;" type="range">
+                    <label class="value">{{settings.font_size.value}}pt</label>
+                    <label class="label">{{settings.font_size.label}}</label>
+                </li>
+                <li class="mochi_list_item">
+                    <input id="range_prefs_line_height" title="Line Height" class="widget" max="{{settings.line_height.max}}" min="{{settings.line_height.min}}" step="{{settings.line_height.step}}" ng-change="changeLineheight()" ng-model="settings.line_height.value"  style="width:200px;" type="range">
+                    <label class="value">{{settings.line_height.value/10.0}}</label>
+                    <label class="label">{{settings.line_height.label}}</label>
+                </li>
+            </ul>
+            <ul class="mochi_list">
+                <li class="mochi_list_item">
+                    <input class="mochi_checkbox widget" type="checkbox" ng-model="settings.preview_media.value"  ng-change="changeMediaPreview()">
+                    <label class="label">{{settings.preview_media.label}}</label><br>
+                </li>
+                <li class="mochi_list_item">
+                    <select class="mochi_combo widget" title="Select a default read later service" ng-model="settings.readlater_services.value" ng-options="obj.text for obj in settings.readlater_services.list" ng-change="changeReadlaterService()"></select>
+                    <label class="label">{{settings.readlater_services.label}}</label>
+                </li>
+            </ul>
+        </div><!-- END of general-->
+        <div class="account_page page" ng-show="pages.account.show">
+            <div class="wrapper">
+            <div class="account_box">
+                <ul class="account_list">
+                    <li class="account" ng-repeat="acc in accounts" ng-click="selectAccount(acc)" ng-class="accountItemCls(acc)">
+                        <img class="avatar" ng-src="{{acc.avatar}}"/>
+                        <span class="name">{{acc.name}}</span> - <span class="serv">{{acc.serv}}</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="control">
+                <a href="#" class="button" ng-click="addAccount()"><i class="mono-icon-plus"></i></a><a 
+                href="#" class="button" ng-click="deleteAccount()" ng-class="accountDeleteButtonCls()"><i class="mono-icon-minus"></i></a>
+            </div>
+            </div>
+        </div><!-- END of account -->
+    </div>
+</div>
+</body>
+</html>

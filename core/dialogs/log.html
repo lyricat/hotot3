@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html lang="en-US" ng-app="HototLogDialog" ng-csp>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../styles/comm.css" />
+    <link rel="stylesheet" href="../styles/mochi.css" />
+    <link rel="stylesheet" href="../styles/font-awesome.css">
+    <link rel="stylesheet" href="../styles/dialog.log.css" />
+    <script type="text/javascript" src="../scripts/interface.js"></script>
+    <script type="text/javascript" src="../scripts/angular.js"></script>
+    <script type="text/javascript" src="../scripts/dialog.log.js"></script>
+    <title>Logger</title>
+</head>
+<body>
+<div id="container" class="" ng-controller="LogCtrl">
+    <ul class="logs">
+        <li ng-repeat="item in logs" class="item" ng-class="item.type">{{item.message}}</li>
+    </ul>
+</div>
+</body>
+</html>

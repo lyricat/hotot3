@@ -1,0 +1,96 @@
+.account_selector {
+    -webkit-app-region: no-drag;
+    height: 28px;
+    width: 28px;
+    display: block;
+    border: none;
+    cursor: default;
+    background: #ccc;
+    position: relative;
+    border-radius: 2px;
+   .popup_menu {
+        width: 120px;
+        display: none;
+        z-index: 100;
+        padding: 10px 2px 6px 10px;
+        top: 30px;
+        .accounts {
+            .slot {
+                width: 32px;
+                height: 32px;
+                display: block;
+                float: left;
+                position: relative;
+                margin: 0 8px 8px 0;
+                opacity: 0.9;
+                border-radius: 2px;
+                .icon {
+                    display: block;
+                    width: 32px;
+                    height: 32px;
+                    background: white none 0 0 no-repeat;
+                    background-size: contain;
+                    border-radius: 2px;
+                }
+                .mask {
+                    display: block;
+                    width: 32px;
+                    height: 32px;
+                    position: absolute;
+                    top: 0px;
+                    left: 0px;
+                    box-shadow: inset 0 0 6px rgba(0,0,0,0.3), inset 0 0 1px 1px rgba(0,0,0,0.3);
+                    border-radius: 2px;
+                }
+            }
+            .slot.selected {
+                box-shadow: 0 0 0 2px rgb(70, 139, 223);
+            }
+            .add_slot {
+                display: block;
+                height: 32px;
+                float: left;
+                width: 32px;
+                text-align: center;
+                border: 2px dotted #ccc;
+                margin: 0 8px 8px 0;
+                font-size: 14px;
+                font-weight: bold;
+                color: #ccc;
+                box-sizing: border-box;
+                border-radius: 2px;
+                i {
+                    opacity: 0.4;
+                    margin: 6px;
+                }
+            }
+        }
+        .sharp {
+            top: -8px;
+            left: 10px;
+        }
+        .helper {
+            top: -16px;
+            left: 13px;
+            width: 64px;
+            height: 48px;
+            -webkit-transform: rotateZ(20deg);
+        }
+        .bottom {
+            clear: both;
+        }
+    }
+}
+.account_selector > .icon {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    background: #ffffff none 0 0 no-repeat;
+    background-size: contain;
+    margin: 3px;
+}
+.account_selector:hover {
+    .popup_menu {
+        display: block;
+    }
+}

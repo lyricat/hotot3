@@ -1,0 +1,75 @@
+html,body {   
+    height: 100%;
+    width: 100%;
+    background: rgb(237,237,237);
+}
+
+#container {
+    height: 100%;
+    width: 100%;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, #e6e6e8));
+    overflow: auto;
+    display: -webkit-flex;
+    -webkit-flex-direction: column;
+}
+.top {
+    -webkit-flex: 0 0 28px;
+    padding: 2px 6px;
+    -webkit-app-region: drag;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    right: 0;
+    left: 0;
+    z-index: 100;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, rgba(255,255,255,0.9)));
+}
+.body {
+    -webkit-flex: 1 0 auto;
+    -webkit-order: 1;
+    padding: 6px;
+    font-size: 14px;
+    .mochi_list_item {
+        .label {
+            font-weight: normal;
+            color: #333;
+        }
+        .mochi_entry, .mochi_textarea {
+            width: 240px;
+        }
+    }
+    .avatar_wrapper {
+        height: 48px;
+        .avatar {
+            height: 48px;
+        }
+        .label {
+            line-height: 48px;
+        }
+        .popup {
+            float: right;
+            font-size: 12px;
+            padding: 4px 8px;
+            height: 40px;
+            text-align: center;
+            background: #f2f2f2;
+            line-height: 38px;
+            width: 176px;
+            .mochi_button {
+                font-size: 10px;
+                line-height: 18px;
+                height: 20px;
+                padding: 0 6px;
+                margin: 0 4px;
+            }
+        }
+    }
+    .textarea_wrapper {
+        height: 60px;
+        .mochi_textarea {
+            height: 60px;
+        }
+    }
+    .save {
+        width: 100%;
+    }
+}
+

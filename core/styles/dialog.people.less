@@ -1,0 +1,225 @@
+html, body {
+    height: 100%;
+}
+body {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.scroller {
+}
+.container {
+    width: 100%;
+}
+.vcard {
+    width: 100%;
+    background: #f2f2f2 transparent center center repeat;
+    background-size: cover;
+    position: relative;
+    font-weight: lighter;
+    .avatar {
+        text-align: center;
+        position: absolute;
+        width: 48px;
+        height: 48px;
+        border-radius: 2px;
+        bottom: 10px;
+        left: 10px;
+        display: inline-block;
+        border: rgba(255,255,255,0.2) 3px solid;
+        .icon {
+            display: block;
+            width: 48px;
+            height: 48px;
+            background: white none 0 0 no-repeat;
+            background-size: contain;
+            border-radius: 2px;
+        }
+        .mask {
+            display: block;
+            width: 48px;
+            height: 48px;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            box-shadow: inset 0 0 6px rgba(0,0,0,0.3), inset 0 0 1px 1px rgba(0,0,0,0.3);
+            border-radius: 2px;
+        }
+    }
+    .body {
+        text-align: left;
+        padding: 4px 4px 4px 68px;
+        font-size: 12px;
+        background-color: rgba(0, 0, 0, 0.5);
+        margin: 120px 0 0 0;
+        color: white;
+        box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.6);
+        height: 44px;
+        .display_name {
+            font-size: 18px;
+            padding: 3px 5px;
+        }
+        .name {
+            padding: 3px 5px;
+        }
+        .description {
+            line-height: 1.3;
+        }
+        .url {
+            height: 20px;
+            line-height: 20px;
+            overflow: hidden;
+        }
+        a {
+            color: white;
+        }
+        a:hover {
+            color: yellow;
+        }
+    }
+    .control {
+        height: 30px;
+        padding: 0;
+        font-size: 12px;
+        background: rgba(0, 0, 0, 0.5);
+        display: -webkit-flex;
+        -webkit-flex-direction: row;
+        button {
+            background: transparent;
+            outline: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            height: 30px;
+            font-family: inherit;
+            margin: 0;
+            padding: 0 20px;
+            -webkit-flex: 0 0 100px;
+            -webkit-order: 1;
+        }
+        button:hover {
+            background: #48f;
+        }
+        .following {
+            color: white;
+        }
+        .following:hover {
+            background: red;
+            color: white;
+        }
+        .non_following {
+            color: white;
+        }
+        .disabled {
+            
+        }
+        .follow_btn {
+            -webkit-flex: 1 0 auto;
+            -webkit-order: 1;
+        }
+        .more {
+            .more_menu {
+                font-size: 12px;
+                right: 22px;
+                margin-top: 8px;
+                z-index: 100;
+                min-width: 100px;
+                .sharp {
+                    top: 0;
+                    margin-top: -8px;
+                    right: 16px;
+                    left: auto;
+                }
+            }
+        }
+        .more:hover {
+            .more_menu {
+                display: block;
+            }
+        }
+    }
+}
+.main {
+    -webkit-flex: 1 0 auto;
+    -webkit-order: 2;
+    width: 100%;
+    .tabs {
+        border-top: 1px #dcdcdc solid;
+        height: 44px;
+        display: -webkit-flex;
+        -webkit-flex-direction: row;
+        border-bottom: 1px #ececec solid;
+        .tab_button {
+            padding: 0;
+            -webkit-flex: 1 0 auto;
+            -webkit-order: 1;
+            text-align: center;
+            color: black;
+            text-decoration: none;
+            border-left: #fff 1px solid;
+            border-right: #ececec 1px solid;
+            font-size: 12px;
+            position: relative;
+            .label {
+                display: block;
+                margin-top: 8px;
+            }
+            .count {
+                display: block;
+                color: #bbb;
+                margin-top: 4px;
+                font-size: 0.9em;
+            }
+            .caret_frame {
+                position: absolute;
+                bottom: 0px;
+                left: 50%;
+                margin-left: -6px;
+                border-left: 8px transparent solid;
+                border-right: 8px transparent solid;
+                border-bottom: 6px #ececec solid;
+                display: block;
+                content: " ";
+                height: 0;
+                width: 0;
+                display: none;
+            }
+            .caret {
+                position: absolute;
+                bottom: -1px;
+                left: 50%;
+                margin-left: -6px;
+                border-left: 8px transparent solid;
+                border-right: 8px transparent solid;
+                border-bottom: 5px #fff solid;
+                display: block;
+                content: " ";
+                height: 0;
+                width: 0;
+                display: none;
+            }
+        }
+        .tab_button.selected {
+            .caret_frame {
+                display: block;
+            }
+            .caret {
+                display: block;
+            }
+        }
+    }
+    .tab_pages {
+        padding-bottom: 32px;
+    }
+}
+#main {
+    .column {
+        float: none;
+        .body {
+            min-height: 300px;
+            .bg_placeholder {
+                position: static;
+            }
+        }
+    }
+}

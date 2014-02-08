@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html lang="en-US" ng-app="HototColumnsDialog" ng-csp>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../styles/comm.css" />
+    <link rel="stylesheet" href="../styles/mochi.css" />
+    <link rel="stylesheet" href="../styles/dialog.columns.css" />
+    <link rel="stylesheet" href="../styles/component.css" />
+    <script type="text/javascript" src="../scripts/angular.js"></script>
+    <script type="text/javascript" src="../scripts/interface.js"></script>
+    <script type="text/javascript" src="../scripts/util.directive.js"></script>
+    <script type="text/javascript" src="../scripts/dialog.columns.js"></script>
+    <script type="text/javascript" src="../scripts/com.account_selector.js"></script>
+    <title>Settings</title>
+</head>
+<body>
+<div id="container" ng-controller="ColumnsCtrl">
+    <div class="top">
+        <button class="add topbar_button" ng-click="addDynamicColumn()">
+            <i class="mono-icon-plus"></i>
+        </button>
+        <account-selector slots="slots" current="currentSlot" on-changed="selectSlot">
+        </account-selector>
+    </div>
+    <div class="body">
+        <div class="column_list">
+            <div class="columns">
+                <a class="column" ng-repeat="col in getCurrentColumns()" ng-click="selectColumn($index)" ng-class="getColumnStyles(col)" draggable="true" on-dragstart="dragNavStart" on-dragenter="dragNavEnter" on-dragover="dragNavOver" on-dragleave="dragNavLeave" on-dragend="dragNavEnd" on-drop="dropNav" col-name="{{col.name}}">
+                    <span class="column_inner">
+                        <i class="icon" ng-class="col.icon_name"></i>
+                        <i class="caret_frame"></i>
+                        <i class="caret"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+        <div class="column_info">
+            <h2 class="column_title">
+                {{selectedColumn.display_name}}
+            </h2>
+            <div class="column_ctrl">
+                <button type="button" class="mochi_button widget small_button"
+                  ng-click="deleteColumn()"><i class="mono-icon-trash"></i></button>
+                <button type="button" class="mochi_button widget small_button"
+                ng-click="toggleNotifyColumn()"><i ng-class="getNotifyState()"></i></button>
+            </div>
+            <div class="column_desc">
+                <h3>Params</h3>
+                <div class="param" ng-repeat="pa in selectedColumn.params">{{pa}}</div>
+                <div class="hint" ng-show="selectedColumn.params.length==0">
+                    <p>No parameter.</p>
+                </div>
+            </div>
+            <div class="column_local_mute column_mute">
+                <h3>Column mute</h3>
+                <input type="text" class="local_mute_box mochi_entry" ng-model="column_mute_text" on-blur="saveColumnMute" />
+            </div>
+            <div class="column_global_mute column_mute">
+                <h3>Global mute</h3>
+                <input type="text" class="global_mute_box mochi_entry" ng-model="global_mute_text" on-blur="saveGlobalMute"/>
+            </div>
+        </div>
+    </div>
+    <div class="add_column_box dialog_float_box" ng-show="add_column_box.show">
+        <ul class="mochi_list">
+            <li class="mochi_list_item">
+                <select class="mochi_combo widget" title="Select column type" ng-model="column_types.selected" ng-options="obj.type for obj in column_types.types" ng-change="changeColumnType()">
+                    <option value="">-- chose type --</option>
+                </select>
+                <label class="label">Column Type</label>
+            </li>
+        </ul>
+        <ul class="mochi_list">
+            <li class="mochi_list_item" ng-repeat="pa in add_column_box.params">
+                <input type="text widget" class="mochi_entry widget" ng-model="pa.value" placeholder="{{pa.placeholder_text}}"/>
+                <label class="label">{{pa.name}}</label>
+            </li>
+            <li class="mochi_list_item hint" ng-show="add_column_box.params.length==0">
+                <p>No parameter needed.</p>
+            </li>
+        </ul>
+        <p class="ctrl"> 
+            <button class="mochi_button " ng-click="cancelCreating()">Cancel</button>
+            <button class="mochi_button blue pull-right" ng-click="createColumn()">Create</button>
+        </p>
+    </div>
+</div>
+</body>
+</html>
