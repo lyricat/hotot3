@@ -126,8 +126,6 @@ compressStyles = ->
 
 task 'sbuild', '', ->
     build()
-    fs.unlink("#{DIST_BASE}/paveo_defaults.json")
-    fs.unlink("#{DIST_BASE}/security_mode.json")
 
 task 'watch', 'Compile + watch *.coffee and *.less', ->
     handleCoffeeFiles watchCoffee
